@@ -14,6 +14,7 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.room.Room
 
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
@@ -25,6 +26,8 @@ import com.google.android.material.snackbar.Snackbar
 import com.ismailmesutmujde.kotlintravelbook.R
 import com.ismailmesutmujde.kotlintravelbook.databinding.ActivityMapsBinding
 import com.ismailmesutmujde.kotlintravelbook.model.Place
+import com.ismailmesutmujde.kotlintravelbook.roomdb.PlaceDao
+import com.ismailmesutmujde.kotlintravelbook.roomdb.PlaceDatabase
 
 class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMapLongClickListener{
 
@@ -37,6 +40,8 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMapLon
     private var trackBoolean : Boolean? = null
     private var selectedLatitude : Double? = null
     private var selectedLongitude : Double? = null
+    private lateinit var placeDb : PlaceDatabase
+    private lateinit var placeDao : PlaceDao
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -55,6 +60,9 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMapLon
         trackBoolean = false
         selectedLatitude = 0.0
         selectedLongitude =0.0
+
+        placeDb = Room.databaseBuilder(applicationContext, PlaceDatabase::class.java, "Places").build()
+        placeDao = placeDb.placeDao()
     }
 
 
@@ -141,6 +149,10 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMapLon
     }
 
     fun save(view : View) {
+        if (selectedLatitude != null && selectedLongitude != null) {
+            val place = Place(binding.placeText.text.toString(), selectedLatitude!!, selectedLongitude!!)
+            placeDao.insert(place)
+        }
 
     }
 
