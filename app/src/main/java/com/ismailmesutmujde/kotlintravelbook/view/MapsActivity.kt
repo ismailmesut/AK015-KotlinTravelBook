@@ -1,4 +1,4 @@
-package com.ismailmesutmujde.kotlintravelbook
+package com.ismailmesutmujde.kotlintravelbook.view
 
 import android.Manifest
 import android.content.SharedPreferences
@@ -22,7 +22,9 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.material.snackbar.Snackbar
+import com.ismailmesutmujde.kotlintravelbook.R
 import com.ismailmesutmujde.kotlintravelbook.databinding.ActivityMapsBinding
+import com.ismailmesutmujde.kotlintravelbook.model.Place
 
 class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMapLongClickListener{
 
